@@ -6,6 +6,24 @@ const multer = require('multer');
 const ejs = require('ejs');
 const path = require('path');
 
+// setup storage
+const storage = multer.diskStorage({
+   dest: './public/uploads/',
+   filename: function(req, file, cd){
+      cb(
+         null, 
+         file.fieldname + 
+         '-' + Date.now() + 
+         path.extname(file.originalname)
+      );
+   }
+});
+
+// initialize upload
+const upload = multer({
+   storage: storage
+}).single('myImage');
+
 // initialize app
 const app = express();
 
