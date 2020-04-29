@@ -8,7 +8,7 @@ const path = require('path');
 
 // setup storage
 const storage = multer.diskStorage({
-   dest: './public/uploads/',
+   destination: './public/uploads/',
    filename: function(req, file, cb){
       cb(
          null, 
@@ -21,8 +21,28 @@ const storage = multer.diskStorage({
 
 // initialize upload
 const upload = multer({
-   storage: storage
+   storage: storage,
+   limits: { fileSize: 5000000},
+   fileFilter: function(req, file, cb){
+      checkFileType(file, cb);
+   }
 }).single('Image');
+
+// check file type
+function checkFileType(file, cb){
+   // Allowed ext
+   const fileTypes = /jpeg|png|jpg/;
+   //check ext
+   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+   //check mime
+   const mimetype = fileTypes.test(file.mimetype);
+
+   if(mimetype && extname){
+      return cb(null, true);
+   }else{
+      cb('Error: Images only!!')
+   }
+}
 
 // initialize app
 const app = express();
