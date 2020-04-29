@@ -37,6 +37,11 @@ app.use(express.static('./public'));
 // render a template
 app.get('/', (req, res) => res.render('index'));
 
+// post rout to submit images
+app.post('/upload', (req, res) => {
+   res.send('test')
+})
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
