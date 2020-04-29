@@ -9,7 +9,7 @@ const path = require('path');
 // setup storage
 const storage = multer.diskStorage({
    dest: './public/uploads/',
-   filename: function(req, file, cd){
+   filename: function(req, file, cb){
       cb(
          null, 
          file.fieldname + 
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 // initialize upload
 const upload = multer({
    storage: storage
-}).single('myImage');
+}).single('Image');
 
 // initialize app
 const app = express();
@@ -37,9 +37,18 @@ app.use(express.static('./public'));
 // render a template
 app.get('/', (req, res) => res.render('index'));
 
-// post rout to submit images
+// post route to submit images
 app.post('/upload', (req, res) => {
-   res.send('test')
+   upload(req, res, (err) => {
+      if(err){
+         res.render('index', {
+            msg: err
+         })
+      }else{
+         console.log(req.file);
+         res.send('test upload')
+      }
+   });
 })
 
 const PORT = process.env.PORT || 4000;

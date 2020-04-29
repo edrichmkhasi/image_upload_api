@@ -4,7 +4,6 @@
   "description": "simple nodejs api project for uploading image files",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
   "author": "Mkhasi Edrich",
